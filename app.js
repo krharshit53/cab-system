@@ -68,7 +68,14 @@ app.post('/api/v1/driver/register/',(req,res)=>
 
 app.post('/api/v1/driver/:id/sendLocation/',(req,res)=>
 {
-    Location.create({id:req.params.id,latitude:12.972442,longitude:1},(err,data1)=>
+      if(!req.body.latitude||!req.body.longitude)
+      {
+        res.status(400).json({ 
+            "status": "failure",
+            "reason": "longitude or latitude is null"
+        })
+      }
+    Location.create({id:req.params.id,latitude:req.body.latitude,longitude:req.body.longitude},(err,data1)=>
     {
             if(err)
             {
